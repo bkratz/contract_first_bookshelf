@@ -41,7 +41,6 @@ public class BookshelfClient {
 
             bookshelfClient.fetchByIsbn("1234567890123");
             bookshelfClient.fetchByIsbn("9780134757599");
-
         } catch (ApiException e) {
             LOGGER.error("An ApiException occurred.", e);
         }
