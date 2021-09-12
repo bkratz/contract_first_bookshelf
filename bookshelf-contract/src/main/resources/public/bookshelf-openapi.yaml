@@ -33,10 +33,38 @@ paths:
       responses:
         201:
           description: created
+          headers:
+            Location:
+              description: url of created book
+              schema:
+                type: string
+                format: url
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Book"
+        404:
+          $ref: "#/components/responses/Unauthorized"
+  /books/{isbn}:
+    get:
+      summary: fetch book by isbn
+      operationId: fetchByIsbn
+      parameters:
+        - in: path
+          name: isbn
+          required: true
+          schema:
+            type: string
+            format: "[1-9]{13}"
+      responses:
+        200:
+          description: the book for given isbn
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Book"
+        204:
+          description: no book for given isbn found
         404:
           $ref: "#/components/responses/Unauthorized"
 
