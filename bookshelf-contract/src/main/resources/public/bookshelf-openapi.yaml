@@ -1,6 +1,64 @@
 openapi: 3.0.3
 info:
   title: Herbstcamus Bookshelf
-  version: 1
+  version: "1"
 
-paths: {}
+paths:
+  /books:
+    get:
+      summary: fetch all books
+      operationId: fetchAllBooks
+      responses:
+        200:
+          description: returns a non empty list of books
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Book"
+        204:
+          description: no books found
+        404:
+          $ref: "#/components/responses/Unauthorized"
+    post:
+      summary: add new book
+      operationId: addBook
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Book"
+      responses:
+        201:
+          description: created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Book"
+        404:
+          $ref: "#/components/responses/Unauthorized"
+
+components:
+  responses:
+    Unauthorized:
+      description: unauthorized
+
+  schemas:
+    Book:
+      type: object
+      required:
+        - isbn
+      properties:
+        title:
+          description: title of the book
+          type: string
+        isbn:
+          type: string
+          pattern: "[1-9]{13}"
+        authors:
+          description: names of authors
+          type: array
+          items:
+            type: string
